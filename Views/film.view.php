@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover text-center">
+<table class="mt-5 table table-striped table-dark table-bordered text-center">
     <thead>
     <tr>
         <th scope="col">
