@@ -1,6 +1,6 @@
-#MVC en PHP (7.1)
+# MVC en PHP (7.1)
 
-##Installation :
+## Installation :
 
 Créer la BDD = `films`
 
@@ -8,7 +8,7 @@ Importer le fichier sql présent dans : `DB-Data\films.sql`
 
 Renommer le fichier : `bootstrap.php.exemple` en `bootstrap.php`
 
-##Configuration :
+## Configuration :
 
 Les credentials pour la connexion à la BDD sont à renseigner dans `bootstrap.php`
 
@@ -19,7 +19,7 @@ define("MYSQL_PWD", "password");
 define("MYSQL_DB", "dbname");
 </pre>
 
-##Utilisation :
+## Utilisation :
 
 Les Models sont dans : `App\Models`
 
