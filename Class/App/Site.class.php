@@ -19,10 +19,24 @@ class Site {
         $this->req = new HTTPRequest();
         $this->layout = new Layout('layout');
 
+        // Accueil
         Router::addRoute(new Route('GET', '/', 'Home', 'show'));
-        Router::addRoute(new Route('GET', '/movies', 'Movie', 'showList'));
 
+        // Films
+
+        /* CREATE */
+//        Router::addRoute(new Route('POST', '/movies', 'Movie', 'createMovie'));
+
+        /* UPDATE */
+//        Router::addRoute(new Route('PUT', '/movies', 'Movie', 'updateMovie'));
+
+        /* READ */
+        Router::addRoute(new Route('GET', '/movies', 'Movie', 'showList'));
         Router::addRoute(new Route('GET', '/movies/{id:\d+}', 'Movie', 'showOne'));
+
+        /* DELETE */
+//        Router::addRoute(new Route('DELETE', '/movies', 'Movie', 'deleteMovie'));
+        Router::addRoute(new Route('POST', '/movies', 'Movie', 'deleteMovie'));
     }
 
     function run() {

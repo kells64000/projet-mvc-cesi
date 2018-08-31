@@ -14,11 +14,11 @@ class MovieController extends BaseController {
         }
 
         echo $this->layout->render('film', [
-            'nb' => 'Id Films',
-            'title'  => 'Titres Films originaux',
-            'titleFr'  => 'Titres Films français',
-            'type'  => 'Type Films',
-            'year' => 'Année de sortie',
+            'id' => 'ID',
+            'title'  => 'Titres films originaux',
+            'titleFr'  => 'Titres films français',
+            'type'  => 'Type films',
+            'year' => 'Année',
             'score' => 'Note',
             'movies' => $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film'),
         ]);
@@ -28,7 +28,7 @@ class MovieController extends BaseController {
 
         $stmt = $this->db->run('SELECT * FROM film WHERE id=' . $_GET['id']);
         echo $this->layout->render('film', [
-            'nb' => 'Id Film',
+            'id' => 'ID',
             'title' => 'Titre Film original',
             'titleFr' => 'Titre Film français',
             'type'  => 'Type Film',
@@ -36,5 +36,26 @@ class MovieController extends BaseController {
             'score' => 'Note',
             'movies' => $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film'),
         ]);
+    }
+
+    public function createMovie() {
+
+    }
+
+    public function updateMovie() {
+
+    }
+
+    public function deleteMovie() {
+
+        $stmt = $this->db->run('DELETE FROM film WHERE id=' . $_POST['id']);
+        $stmt->execute();
+        -
+        $this->showList();
+
+    }
+
+    public function searchMovie() {
+
     }
 }

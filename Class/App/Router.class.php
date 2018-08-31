@@ -22,8 +22,6 @@ class Route {
         $this->pattern = preg_replace('@/\{(\w+):([\[\]\w\+\*\\\]*)\}/?@', '/(?<$1>$2)/?', $this->uri);
     }
 
-
-
     public function match(HTTPRequest $req) : bool {
 
         if ($this->method !== $req->method())
@@ -44,8 +42,6 @@ class Route {
         return false;
     }
 
-
-
     private function storeParameters($match) : void
     {
 
@@ -53,6 +49,11 @@ class Route {
 
             if (is_string($key)) $_GET[$key] = $value;
         }
+
+//        foreach ($match as $key => $value) {
+//
+//            if (is_string($key)) $_POST[$key] = $value;
+//        }
     }
 
 
@@ -76,13 +77,10 @@ class Router {
 
     private static $routes;
 
-
     public static function addRoute(Route $route) : void {
 
         self::$routes[] = $route;
     }
-
-
 
     public static function getController(HTTPRequest $req) : array {
 

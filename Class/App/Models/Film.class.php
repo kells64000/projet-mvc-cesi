@@ -101,5 +101,4 @@ class Film {
         $this->score = $score;
     }
 
-
 }
