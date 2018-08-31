@@ -25,4 +25,4 @@ Les Models sont dans : `App\Models`
 
 Les Controllers sont dans : `App\Controllers`
 
-Les Views sont dans `App\`
+Les Views sont dans `Views\`
