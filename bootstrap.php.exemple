@@ -1,0 +1,21 @@
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// header('Content-type: text/plain; charset=utf-8');
+
+session_start();
+
+setlocale(LC_ALL, 'fr_FR.utf-8');
+
+define("MYSQL_HOST", "localhost");
+define("MYSQL_USER", "user");
+define("MYSQL_PWD", "password");
+define("MYSQL_DB", "dbname");
+
+function autoload($class) {
+
+    require_once 'Class/' . str_replace('\\','/',$class) . '.class.php';
+}
+
+spl_autoload_register('autoload');
