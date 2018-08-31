@@ -6,7 +6,6 @@ class HomeController extends BaseController {
 
     public function show() {
 
-        echo "Page d'accueil";
+        echo $this->layout->render('accueil');
     }
-
 }

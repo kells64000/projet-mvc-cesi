@@ -34,7 +34,8 @@ class Site {
             $ctrl = new $class($this->db, $this->layout);
             $ctrl->{$action}();
         } else {
-            echo 'Page - 404';
+            echo '   Page - 404';
         }
     }
 }
+
