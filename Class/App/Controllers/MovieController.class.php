@@ -40,9 +40,17 @@ class MovieController extends BaseController {
 
     public function createMovie() {
 
+        $stmt = $this->db->run('INSERT INTO film (`title`, `title_fr`, `type`, `year`, `score`) VALUES (`' . $_POST['title'] . ',' . $_POST['titleFr'] . ',' . $_POST['type'] . ',' . $_POST['year'] . ',' . $_POST['score'] . '`');
+        $stmt->execute();
+
+        $this->showList();
     }
 
     public function updateMovie() {
+        $stmt = $this->db->run('UPDATE film SET `title` =' . $_POST['title'] .', WHERE id=' . $_POST['id']);
+        $stmt->execute();
+
+        $this->showList();
 
     }
 
@@ -50,12 +58,20 @@ class MovieController extends BaseController {
 
         $stmt = $this->db->run('DELETE FROM film WHERE id=' . $_POST['id']);
         $stmt->execute();
-        -
-        $this->showList();
 
+        $this->showList();
     }
 
     public function searchMovie() {
-
+        $stmt = $this->db->run('SELECT * FROM film WHERE ' . $_POST['column'] . '=' . $_POST['search']);
+        echo $this->layout->render('film', [
+            'id' => 'ID',
+            'title'  => 'Titres films originaux',
+            'titleFr'  => 'Titres films français',
+            'type'  => 'Type films',
+            'year' => 'Année',
+            'score' => 'Note',
+            'movies' => $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film'),
+        ]);
     }
 }

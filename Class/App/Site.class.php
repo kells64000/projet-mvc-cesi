@@ -25,10 +25,11 @@ class Site {
         // Films
 
         /* CREATE */
-//        Router::addRoute(new Route('POST', '/movies', 'Movie', 'createMovie'));
+        Router::addRoute(new Route('POST', '/movies', 'Movie', 'createMovie'));
 
         /* UPDATE */
 //        Router::addRoute(new Route('PUT', '/movies', 'Movie', 'updateMovie'));
+//        Router::addRoute(new Route('POST', '/movies', 'Movie', 'updateMovie'));
 
         /* READ */
         Router::addRoute(new Route('GET', '/movies', 'Movie', 'showList'));
@@ -36,7 +37,7 @@ class Site {
 
         /* DELETE */
 //        Router::addRoute(new Route('DELETE', '/movies', 'Movie', 'deleteMovie'));
-        Router::addRoute(new Route('POST', '/movies', 'Movie', 'deleteMovie'));
+//        Router::addRoute(new Route('POST', '/movies', 'Movie', 'deleteMovie'));
     }
 
     function run() {
