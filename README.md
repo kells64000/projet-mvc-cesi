@@ -2,6 +2,8 @@
 
 ## Installation :
 
+Créer un vhost dans Apache / Nginx
+
 Créer la BDD = `films`
 
 Importer le fichier sql présent dans : `DB-Data\films.sql`
