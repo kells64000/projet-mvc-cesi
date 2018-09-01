@@ -255,7 +255,7 @@
     thead th:hover {
         background-color: #636e72;
     }
-    .table tbody th:hover, .table tbody td:hover {
-        background-color: #8395a7;
+    .table tbody tr:hover {
+        background-color: #8395a7 !important;
     }
 </style>
