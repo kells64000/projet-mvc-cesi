@@ -102,8 +102,8 @@
                         <?php endif ?>
                     </th>
                     <th>
-                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#createMovie">
-                            <i class="far fa-plus-square fa-lg"></i>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#createMovie">
+                            <i class="far fa-plus-square fa-2x"></i>
                         </button>
                     </th>
                 </tr>
@@ -142,10 +142,15 @@
                                 <input type="submit" value="" class="btn btn-sm btn-danger" />
                             </form>-->
                             <!--<button onclick="supprimerFilm()" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>-->
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-sm btn-primary mr-2">
+                                    <i class="fas fa-edit"></i>
+                                </button>
 
-                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteMovie">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteMovie">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -159,7 +164,7 @@
 <div class="modal fade" id="createMovie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
+            <div class="modal-header bg-success">
                 <h5 class="modal-title text-white" id="exampleModalLongTitle">Ajout d'un nouveau film</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -191,7 +196,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Créer</button>
+                <button type="button" class="btn btn-success">Créer</button>
             </div>
         </div>
     </div>
@@ -244,10 +249,13 @@
 </script>
 
 <style>
+    .table thead th{
+        vertical-align: middle;
+    }
     thead th:hover {
         background-color: #636e72;
     }
-    tbody th:hover, tbody td:hover {
-        background-color: #8395a7 !important;
+    .table tbody th:hover, .table tbody td:hover {
+        background-color: #8395a7;
     }
 </style>
