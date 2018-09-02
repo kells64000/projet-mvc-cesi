@@ -20,24 +20,24 @@ class Site {
         $this->layout = new Layout('layout');
 
         // Accueil
-        Router::addRoute(new Route('GET', '/', 'Home', 'show'));
+        Router::addRoute(new Route('homepage', 'GET', '/', 'Home', 'show'));
 
         // Films
 
         /* CREATE */
-        Router::addRoute(new Route('POST', '/movies', 'Movie', 'createMovie'));
+        Router::addRoute(new Route('movie_add', 'POST', '/movie/add', 'Movie', 'createMovie'));
 
         /* UPDATE */
-//        Router::addRoute(new Route('PUT', '/movies', 'Movie', 'updateMovie'));
-//        Router::addRoute(new Route('POST', '/movies', 'Movie', 'updateMovie'));
+        Router::addRoute(new Route('movie_edit', 'PUT', '/movie/edit', 'Movie', 'updateMovie'));
+//        Router::addRoute(new Route('POST', '/movie/delete/{id:\d+}', 'Movie', 'updateMovie'));
 
         /* READ */
-        Router::addRoute(new Route('GET', '/movies', 'Movie', 'showList'));
-        Router::addRoute(new Route('GET', '/movies/{id:\d+}', 'Movie', 'showOne'));
+        Router::addRoute(new Route('movies_list', 'GET', '/movies', 'Movie', 'showList'));
+        Router::addRoute(new Route('movie_show', 'GET', '/movie/{id:\d+}', 'Movie', 'showOne'));
 
         /* DELETE */
 //        Router::addRoute(new Route('DELETE', '/movies', 'Movie', 'deleteMovie'));
-//        Router::addRoute(new Route('POST', '/movies', 'Movie', 'deleteMovie'));
+        Router::addRoute(new Route('movie_delete', 'DELETE', '/movie/delete/{id:\d+}', 'Movie', 'deleteMovie'));
     }
 
     function run() {
@@ -49,7 +49,9 @@ class Site {
             $ctrl = new $class($this->db, $this->layout);
             $ctrl->{$action}();
         } else {
-            echo '   Page - 404';
+            $class = 'App\Controllers\ErrorController';
+            $ctrl = new $class($this->db, $this->layout);
+            $ctrl->render404();
         }
     }
 }

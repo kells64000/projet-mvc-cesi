@@ -6,15 +6,15 @@ use App\Net\HTTPRequest;
 
 class Route {
 
+    private $name;
     private $method;
     private $uri;
     private $controller;
     private $action;
     private $pattern;
 
-
-    public function __construct(string $m, string $u, string $c, string $a) {
-
+    public function __construct(string $n, string $m, string $u, string $c, string $a) {
+        $this->name = $n;
         $this->method = $m;
         $this->uri = trim($u, '/');
         $this->controller = $c;
@@ -23,14 +23,13 @@ class Route {
     }
 
     public function match(HTTPRequest $req) : bool {
-
         if ($this->method !== $req->method())
             return false;
 
         if ($this->uri === $req->uri())
             return true;
 
-        if (!empty($this->pattern)) {
+        if (!empty($this->uri)) {
             preg_match('@^'.$this->pattern.'$@', $req->uri(), $match);
 
             if (count($match) > 0) {
@@ -69,6 +68,14 @@ class Route {
 
         return $this->action;
     }
+
+    public function getName() : string {
+        return $this->name;
+    }
+
+    public function getUri($hostIncluded = false) : string {
+        return ($hostIncluded ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/' : '') . $this->uri;
+    }
 }
 
 
@@ -93,5 +100,15 @@ class Router {
         }
 
         return [null, null];
+    }
+
+    public static function getByName(string $name) : Route {
+        foreach (self::$routes as $route) {
+            if ($route->getName() === $name) {
+                return $route;
+            }
+        }
+
+        return null;
     }
 }

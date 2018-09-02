@@ -7,13 +7,15 @@
                     <i class="fas fa-home text-white"></i>
                 </a>
 
-                <a href="/movies" class="btn btn-lg bg-dark">
-                    <i class="fas fa-film text-white"></i>
-                </a>
-
                 <button class="btn btn-lg bg-dark" data-toggle="collapse" data-target="#search">
                     <i class="fas fa-search text-white"></i>
                 </button>
+
+                <?php if(!$isMovies) :?>
+                    <a href="/movies" class="btn btn-lg bg-dark">
+                        <i class="fas fa-film text-white"></i>
+                    </a>
+                <?php endif; ?>
 
                 <div id="search" class="collapse">
                     <form action="#" method="get">
@@ -103,7 +105,7 @@
                     </th>
                     <th>
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#createMovie">
-                            <i class="far fa-plus-square fa-2x"></i>
+                            <i class="far fa-plus-square fa-3x"></i>
                         </button>
                     </th>
                 </tr>
@@ -114,13 +116,13 @@
                         <th scope="row"><?= $movie->getId(); ?></th>
 
                         <td>
-                            <a href="/movies/<?= $movie->getId(); ?>" class="text-light">
+                            <a href="/movie/<?= $movie->getId(); ?>" class="text-light">
                                 <?= $movie->getTitle(); ?>
                             </a>
                         </td>
 
                         <td>
-                            <a href="/movies/<?= $movie->getId(); ?>" class="text-light">
+                            <a href="/movie/<?= $movie->getId(); ?>" class="text-light">
                                 <?= $movie->getTitleFr(); ?>
                             </a>
                         </td>
@@ -137,13 +139,8 @@
                             <?= $movie->getScore(); ?>
                         </td>
                         <td>
-                            <!--<form action="/movies" method="post">
-                                <input type="hidden" name="id" value="<?php /*echo $movie->getId(); */?>" />
-                                <input type="submit" value="" class="btn btn-sm btn-danger" />
-                            </form>-->
-                            <!--<button onclick="supprimerFilm()" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>-->
                             <div class="d-flex">
-                                <button type="button" class="btn btn-sm btn-primary mr-2">
+                                <button type="button" class="btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#updateMovie-<?php echo $movie->getId();?>">
                                     <i class="fas fa-edit"></i>
                                 </button>
 
@@ -161,17 +158,17 @@
 </div>
 
 <!-- Modal CREATE -->
-<div class="modal fade" id="createMovie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="createMovie" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-success">
-                <h5 class="modal-title text-white" id="exampleModalLongTitle">Ajout d'un nouveau film</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="/movies" method="POST">
+            <form action="/movie/add" method="POST">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Ajout d'un nouveau film</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="title" class="col-form-label">Titre original :</label>
                         <input name="title" type="text" class="form-control" id="title" placeholder="The Godfather" required>
@@ -192,61 +189,84 @@
                         <label for="score" class="col-form-label">Note :</label>
                         <input name="score" type="text" class="form-control" id="score" placeholder="8.5" required>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-success">Créer</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Créer</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Modal DELETE -->
-<div class="modal fade" id="deleteMovie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- Modal UPDATE -->
+<?php foreach ($movies as $movie) {?>
+<div class="modal fade" id="updateMovie-<?php echo $movie->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
-                <h5 class="modal-title text-white" id="exampleModalLongTitle">Êtes-vous certain de vouloir supprimer ce film ?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Une fois supprimé il ne serra plus enregistré en base de donnée.</p>
-                <p>Il faudra alors le réenregistrer !</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger">Supprimer</button>
-            </div>
+            <form action="/movie/edit" method="PUT">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Modifications de <?=$movie->getTitleFr();?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="title" class="col-form-label">Titre original :</label>
+                        <input name="title" type="hidden" class="form-control" id="title" value="<?=$movie->getTitle();?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="titleFr" class="col-form-label">Titre français :</label>
+                        <input name="titleFr" type="text" class="form-control" id="titleFr" value="<?=$movie->getTitleFr();?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="col-form-label">Type :</label>
+                        <input name="type" type="text" class="form-control" id="type" value="<?=$movie->getType();?>"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year" class="col-form-label">Année :</label>
+                        <input name="year" type="text" class="form-control" id="year" value="<?=$movie->getYear();?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="score" class="col-form-label">Note :</label>
+                        <input name="score" type="text" class="form-control" id="score" value="8.5" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+<?php } ?>
 
-
-
-<script type="text/javascript">
-// function supprimerFilm(){
-//     if(confirm('Confirmez-vous la suppression ?')){
-//         $.ajax({
-//
-//             url : '/movies',
-//             type : 'DELETE',
-//             success : function(response, statut){
-//
-//             },
-//
-//             error : function(resultat, statut, erreur){
-//             },
-//
-//             complete : function(resultat, statut){
-//
-//             }
-//         });
-//     }
-// }
-</script>
+<!-- Modal DELETE -->
+<div class="modal fade" id="deleteMovie" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="/movies" method="DELETE">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Êtes-vous certain de vouloir supprimer ce film ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Une fois supprimé il ne serra plus enregistré en base de donnée.</p>
+                    <p>Il faudra alors le réenregistrer !</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <style>
     .table thead th{

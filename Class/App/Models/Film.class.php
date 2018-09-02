@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Store\Database;
+
 class Film {
     private $id;
     private $title;
@@ -9,7 +11,6 @@ class Film {
     private $type;
     private $year;
     private $score;
-
 
     // Getters
 
@@ -101,4 +102,22 @@ class Film {
         $this->score = $score;
     }
 
+    public function create(Database $database, $title, $title_fr, $type, $year, $score) {
+        $database->beginTransaction();
+        try {
+            $sql = 'INSERT INTO `film` (`id`, `title`, `title_fr`, `type`, `year`, `score`) VALUES (NULL, :title, :titleFr, :type, :year, :score)';
+            $database->run($sql, array(
+                'title' => $title,
+                'titleFr' => $title_fr,
+                'type' => $type,
+                'year' => $year,
+                'score' => $score,
+            ));
+            $database->commit();
+            return true;
+        } catch (\Exception $e) {
+            $database->rollBack();
+            return new \Exception($e);
+        }
+    }
 }
