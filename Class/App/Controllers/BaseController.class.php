@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Layout\Layout;
 use App\Store\Database;
 
-
 abstract class BaseController {
     protected $db;
     protected $layout;

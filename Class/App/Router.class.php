@@ -48,20 +48,13 @@ class Route {
 
             if (is_string($key)) $_GET[$key] = $value;
         }
-
-//        foreach ($match as $key => $value) {
-//
-//            if (is_string($key)) $_POST[$key] = $value;
-//        }
     }
-
 
 
     public function getController() : string {
 
         return $this->controller;
     }
-
 
 
     public function getAction() : string {

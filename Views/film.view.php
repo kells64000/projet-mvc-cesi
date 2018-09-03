@@ -18,11 +18,11 @@
                 <?php endif; ?>
 
                 <div id="search" class="collapse">
-                    <form action="#" method="get">
+                    <form action="/movies/search" method="get">
                         <div class="input-group mt-3">
                             <input type="text" class="form-control" placeholder="Recherche...">
                             <div class="input-group-append">
-                                <button class="btn bg-dark">
+                                <button type="submit" class="btn bg-dark">
                                     <i class="fas fa-search text-white"></i>
                                 </button>
                             </div>
@@ -39,66 +39,66 @@
                 <tr>
                     <th scope="col">
                         <?php if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
-                            <a href="?orderby=id&dir=desc" class="text-white">
+                            <a href="/movies?orderby=id&dir=desc" class="text-white">
                                 <?=$id?>
                             </a>
                         <?php else : ?>
-                            <a href="?orderby=id&dir=asc" class="text-white">
+                            <a href="/movies?orderby=id&dir=asc" class="text-white">
                                 <?=$id?>
                             </a>
                         <?php endif ?>
                     </th>
                     <th scope="col">
                         <?php if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                            <a href="?orderby=title&dir=desc" class="text-white">
+                            <a href="/movies?orderby=title&dir=desc" class="text-white">
                                 <?=$title?>
                             </a>
                         <?php else : ?>
-                            <a href="?orderby=title&dir=asc" class="text-white">
+                            <a href="/movies?orderby=title&dir=asc" class="text-white">
                                 <?=$title?>
                             </a>
                         <?php endif ?>
                     </th>
                     <th scope="col">
                         <?php if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                            <a href="?orderby=title_fr&dir=desc" class="text-white">
+                            <a href="/movies?orderby=title_fr&dir=desc" class="text-white">
                                 <?=$titleFr?>
                             </a>
                         <?php else : ?>
-                            <a href="?orderby=title_fr&dir=asc" class="text-white">
+                            <a href="/movies?orderby=title_fr&dir=asc" class="text-white">
                                 <?=$titleFr?>
                             </a>
                         <?php endif ?>
                     </th>
                     <th scope="col">
                         <?php if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                            <a href="?orderby=type&dir=desc" class="text-white">
+                            <a href="/movies?orderby=type&dir=desc" class="text-white">
                                 <?=$type?>
                             </a>
                         <?php else : ?>
-                            <a href="?orderby=type&dir=asc" class="text-white">
+                            <a href="/movies?orderby=type&dir=asc" class="text-white">
                                 <?=$type?>
                             </a>
                         <?php endif ?>
                     </th>
                     <th scope="col">
                         <?php if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                            <a href="?orderby=year&dir=desc" class="text-white">
+                            <a href="/movies?orderby=year&dir=desc" class="text-white">
                                 <?=$year?>
                             </a>
                         <?php else : ?>
-                            <a href="?orderby=year&dir=asc" class="text-white">
+                            <a href="/movies?orderby=year&dir=asc" class="text-white">
                                 <?=$year?>
                             </a>
                         <?php endif ?>
                     </th>
                     <th scope="col">
                         <?php if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                            <a href="?orderby=score&dir=desc" class="text-white">
+                            <a href="/movies?orderby=score&dir=desc" class="text-white">
                                 <?=$score?>
                             </a>
                         <?php else : ?>
-                            <a href="?orderby=score&dir=asc" class="text-white">
+                            <a href="/movies?orderby=score&dir=asc" class="text-white">
                                 <?=$score?>
                             </a>
                         <?php endif ?>
@@ -144,7 +144,7 @@
                                     <i class="fas fa-edit"></i>
                                 </button>
 
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteMovie">
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteMovie-<?php echo $movie->getId();?>">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -200,11 +200,11 @@
 </div>
 
 <!-- Modal UPDATE -->
-<?php foreach ($movies as $movie) {?>
+<?php foreach ($movies as $movie) { ?>
 <div class="modal fade" id="updateMovie-<?php echo $movie->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="/movie/edit" method="PUT">
+            <form action="/movie/edit/<?=$movie->getId()?>" method="POST">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title text-white" id="exampleModalLongTitle">Modifications de <?=$movie->getTitleFr();?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -213,9 +213,14 @@
                 </div>
                 <div class="modal-body">
 
+                    <div>
+                        <label for="id" class="col-form-label"></label>
+                        <input name="id" type="hidden" class="form-control" id="id" value="<?=$movie->getId();?>">
+                    </div>
+
                     <div class="form-group">
                         <label for="title" class="col-form-label">Titre original :</label>
-                        <input name="title" type="hidden" class="form-control" id="title" value="<?=$movie->getTitle();?>" required>
+                        <input name="title" type="text" class="form-control" id="title" value="<?=$movie->getTitle();?>" required>
                     </div>
                     <div class="form-group">
                         <label for="titleFr" class="col-form-label">Titre français :</label>
@@ -231,7 +236,7 @@
                     </div>
                     <div class="form-group">
                         <label for="score" class="col-form-label">Note :</label>
-                        <input name="score" type="text" class="form-control" id="score" value="8.5" required>
+                        <input name="score" type="text" class="form-control" id="score" value="<?=$movie->getScore();?>" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -245,12 +250,13 @@
 <?php } ?>
 
 <!-- Modal DELETE -->
-<div class="modal fade" id="deleteMovie" tabindex="-1" role="dialog" aria-hidden="true">
+<?php foreach ($movies as $movie) { ?>
+<div class="modal fade" id="deleteMovie-<?php echo $movie->getId();?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="/movies" method="DELETE">
+            <form action="/movie/delete/<?=$movie->getId()?>" method="GET">
                 <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Êtes-vous certain de vouloir supprimer ce film ?</h5>
+                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Êtes-vous certain de vouloir supprimer <p><?=$movie->getTitleFr();?> ?</p></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -267,6 +273,7 @@
         </div>
     </div>
 </div>
+<?php } ?>
 
 <style>
     .table thead th{

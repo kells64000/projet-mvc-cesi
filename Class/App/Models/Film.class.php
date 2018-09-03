@@ -115,9 +115,47 @@ class Film {
             ));
             $database->commit();
             return true;
-        } catch (\Exception $e) {
+        } catch (pdoException $e) {
             $database->rollBack();
-            return new \Exception($e);
+            return new pdoException($e);
         }
+    }
+
+    public function update(Database $database, $id, $title, $title_fr, $type, $year, $score) {
+        $database->beginTransaction();
+        try {
+            $sql = 'UPDATE `film` SET `title` = :title, `title_fr` = :titleFr, `type` = :type, `year` = :year, `score` = :score WHERE `id` = :id';
+            $database->run($sql, array(
+                'id' => $id,
+                'title' => $title,
+                'titleFr' => $title_fr,
+                'type' => $type,
+                'year' => $year,
+                'score' => $score,
+            ));
+            $database->commit();
+            return true;
+        } catch (pdoException $e) {
+            $database->rollBack();
+            return new pdoException($e);
+        }
+    }
+
+    public function delete(Database $database, $id) {
+        $database->beginTransaction();
+        try {
+            $sql = 'DELETE FROM `film` WHERE id=' . $id;
+            $database->run($sql);
+            $database->commit();
+            return true;
+        } catch (pdoException $e) {
+            $database->rollBack();
+            return new pdoException($e);
+        }
+    }
+
+    public function search(Database $database) {
+
+
     }
 }

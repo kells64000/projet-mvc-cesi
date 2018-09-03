@@ -55,27 +55,43 @@ class MovieController extends BaseController {
             $movie->create($this->db, $title, $titleFr, $type, $year, $score);
             $route = Router::getByName('movies_list');
             Header("location: " . $route->getUri(true));
-        } catch(\Exception $e) {
+        } catch(pdoException $e) {
             echo 'PDO Error: ' . $e->getMessage();
             die();
         }
     }
 
     public function updateMovie() {
+        $id = $_POST['id'];
+        $title = $_POST['title'];
+        $titleFr = $_POST['titleFr'];
+        $type = $_POST['type'];
+        $year = $_POST['year'];
+        $score = $_POST['score'];
 
-        $stmt = $this->db->run('UPDATE film SET `title` =' . $_POST['title'] .', WHERE id=' . $_POST['id']);
-        $stmt->execute();
-
-        $this->showList();
-
+        try {
+            $movie = new Film();
+            $movie->update($this->db, $id, $title, $titleFr, $type, $year, $score);
+            $route = Router::getByName('movies_list');
+            Header("location: " . $route->getUri(true));
+        } catch(pdoException $e) {
+            echo 'PDO Error: ' . $e->getMessage();
+            die();
+        }
     }
 
     public function deleteMovie() {
+        $id =  $_GET['id'];
 
-        $stmt = $this->db->run('DELETE FROM film WHERE id=' . $_POST['id']);
-        $stmt->execute();
-
-        $this->showList();
+        try {
+            $movie = new Film();
+            $movie->delete($this->db, $id);
+            $route = Router::getByName('movies_list');
+            Header("location: " . $route->getUri(true));
+        } catch(pdoException $e) {
+            echo 'PDO Error: ' . $e->getMessage();
+            die();
+        }
     }
 
     public function searchMovie() {
