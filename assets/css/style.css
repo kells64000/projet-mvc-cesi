@@ -1,0 +1,9 @@
+.table thead th{
+    vertical-align: middle;
+}
+thead th:hover {
+    background-color: #636e72;
+}
+.table tbody tr:hover {
+    background-color: #8395a7 !important;
+}

@@ -2,24 +2,31 @@
 
 namespace App\Models;
 
-use App\Store\Database;
-
 class Film {
     private $id;
+    private $director;
     private $title;
     private $title_fr;
     private $type;
     private $year;
     private $score;
 
-    // Getters
 
+    // Getters
     /**
      * @return mixed
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Director
+     */
+    public function getDirector() : Director
+    {
+        return $this->director;
     }
 
     /**
@@ -68,6 +75,15 @@ class Film {
     }
 
     /**
+     * @param Director $director
+     * @return Director
+     */
+    public function setDirector(Director $director)
+    {
+        return $this->director = $director;
+    }
+
+    /**
      * @param mixed $title
      */
     public function setTitle($title) {
@@ -100,62 +116,5 @@ class Film {
      */
     public function setScore($score) {
         $this->score = $score;
-    }
-
-    public function create(Database $database, $title, $title_fr, $type, $year, $score) {
-        $database->beginTransaction();
-        try {
-            $sql = 'INSERT INTO `film` (`id`, `title`, `title_fr`, `type`, `year`, `score`) VALUES (NULL, :title, :titleFr, :type, :year, :score)';
-            $database->run($sql, array(
-                'title' => $title,
-                'titleFr' => $title_fr,
-                'type' => $type,
-                'year' => $year,
-                'score' => $score,
-            ));
-            $database->commit();
-            return true;
-        } catch (pdoException $e) {
-            $database->rollBack();
-            return new pdoException($e);
-        }
-    }
-
-    public function update(Database $database, $id, $title, $title_fr, $type, $year, $score) {
-        $database->beginTransaction();
-        try {
-            $sql = 'UPDATE `film` SET `title` = :title, `title_fr` = :titleFr, `type` = :type, `year` = :year, `score` = :score WHERE `id` = :id';
-            $database->run($sql, array(
-                'id' => $id,
-                'title' => $title,
-                'titleFr' => $title_fr,
-                'type' => $type,
-                'year' => $year,
-                'score' => $score,
-            ));
-            $database->commit();
-            return true;
-        } catch (pdoException $e) {
-            $database->rollBack();
-            return new pdoException($e);
-        }
-    }
-
-    public function delete(Database $database, $id) {
-        $database->beginTransaction();
-        try {
-            $sql = 'DELETE FROM `film` WHERE id=' . $id;
-            $database->run($sql);
-            $database->commit();
-            return true;
-        } catch (pdoException $e) {
-            $database->rollBack();
-            return new pdoException($e);
-        }
-    }
-
-    public function search(Database $database) {
-
-
     }
 }

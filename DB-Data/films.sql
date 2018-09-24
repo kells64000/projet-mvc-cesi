@@ -1,7 +1,3 @@
--- Hôte : 127.0.0.1:3306
--- Version du serveur :  5.7.19
--- Version de PHP :  7.1.9
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -12,6 +8,12 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+
+DROP DATABASE IF EXISTS `films`;
+
+CREATE DATABASE IF NOT EXISTS `films`;
+
+USE `films`;
 
 --
 -- Base de données :  `films`
@@ -29,11 +31,7 @@ CREATE TABLE IF NOT EXISTS `director` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=296 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `director`
---
+) ENGINE=innodb AUTO_INCREMENT=296 DEFAULT CHARSET=utf8;
 
 INSERT INTO `director` (`id`, `name`) VALUES
 (1, 'Walt Disney'),
@@ -348,11 +346,8 @@ CREATE TABLE IF NOT EXISTS `film` (
   `year` year(4) NOT NULL,
   `score` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=431 DEFAULT CHARSET=utf8;
+) ENGINE=innodb AUTO_INCREMENT=431 DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `film`
---
 
 INSERT INTO `film` (`id`, `id_director`, `title`, `title_fr`, `type`, `year`, `score`) VALUES
 (1, 1, '﻿Snow White and the Seven Dwarfs', 'Blanche-Neige et les Sept Nains', 'Animation/Fantasy', 1937, '6,9'),
@@ -785,6 +780,11 @@ INSERT INTO `film` (`id`, `id_director`, `title`, `title_fr`, `type`, `year`, `s
 (428, 294, '\r\nJumanji : Welcome to the  jungle', 'Jumanji : Bienvenue dans la jungle', 'Fantasy/Aventure', 2017, ''),
 (429, 295, '\r\nA Simple Wish', 'La Guerre des Fées', 'Fantasy/Comédie', 1998, '4,9');
 COMMIT;
+
+ALTER TABLE `film`
+  ADD FOREIGN KEY `FK_director_id` (`id_director`)
+REFERENCES `director` (`id`);
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

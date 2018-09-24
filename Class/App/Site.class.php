@@ -28,14 +28,14 @@ class Site {
         Router::addRoute(new Route('movie_add', 'POST', '/movie/add', 'Movie', 'createMovie'));
 
         /* READ */
-        Router::addRoute(new Route('movies_list', 'GET', '/movies', 'Movie', 'showList'));
+        Router::addRoute(new Route('movies_list', 'GET', '/movies', 'Movie', 'showPaginate'));
         Router::addRoute(new Route('movie_show', 'GET', '/movie/{id:\d+}', 'Movie', 'showOne'));
 
         /* UPDATE */
-        Router::addRoute(new Route('movie_edit', 'POST', '/movie/edit/{id:\d+}', 'Movie', 'updateMovie'));
+        Router::addRoute(new Route('movie_edit', 'POST', '/movie/{id:\d+}/edit', 'Movie', 'updateMovie'));
 
         /* DELETE */
-        Router::addRoute(new Route('movie_delete', 'GET', '/movie/delete/{id:\d+}', 'Movie', 'deleteMovie'));
+        Router::addRoute(new Route('movie_delete', 'GET', '/movie/{id:\d+}/delete', 'Movie', 'deleteMovie'));
     }
 
     function run() {

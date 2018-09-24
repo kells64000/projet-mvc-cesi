@@ -2,18 +2,43 @@
 
 namespace App\Controllers;
 
-use App\Models\Film;
+use App\Repository\FilmRepository;
+use App\Repository\TypeRepository;
 use App\Router;
 
 class MovieController extends BaseController {
 
-    public function showList() {
+    public function showOne() {
 
-        if(!empty($_GET['orderby']) && !empty($_GET['dir'])) {
-            $stmt = $this->db->run('SELECT * FROM film ORDER BY ' . $_GET['orderby'] . ' ' . $_GET['dir']);
+        if(isset($_GET['id'])) {
+            $filmRepository = new FilmRepository($this->db);
+            $film = $filmRepository->showOne($_GET['id']);
 
+            echo $this->layout->render('film', [
+                'isMovies' => false,
+                'id' => 'ID',
+                'title' => 'Titre Film original',
+                'titleFr' => 'Titre Film français',
+                'director' => 'Réalisateur',
+                'type'  => 'Type Film',
+                'year' => 'Année de sortie',
+                'score' => 'Note',
+                'movies' => $film,
+            ]);
         } else {
-            $stmt = $this->db->run('SELECT * FROM film');
+            $route = Router::getByName('movies_list');
+            Header("location: " . $route->getUri(true));
+        }
+    }
+
+    public function showAll() {
+
+        $filmRepository = new FilmRepository($this->db);
+
+        if(isset($_GET['orderby']) && isset($_GET['dir'])) {
+            $films = $filmRepository->showAll($_GET['orderby'], $_GET['dir']);
+        } else {
+            $films = $filmRepository->showAll(null, null);
         }
 
         echo $this->layout->render('film', [
@@ -21,90 +46,93 @@ class MovieController extends BaseController {
             'id' => 'ID',
             'title'  => 'Titres films originaux',
             'titleFr'  => 'Titres films français',
+            'director' => 'Réalisateur',
             'type'  => 'Type films',
             'year' => 'Année',
             'score' => 'Note',
-            'movies' => $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film'),
+            'movies' => $films,
         ]);
     }
 
-    public function showOne() {
+    public function showPaginate() {
 
-        $stmt = $this->db->run('SELECT * FROM film WHERE id=' . $_GET['id']);
+        $filmRepository = new FilmRepository($this->db);
+        $typeRepository = new TypeRepository($this->db);
+
+        if(isset($_GET['orderby']) && isset($_GET['dir'])) {
+            $films = $filmRepository->showPaginate($_GET['orderby'], $_GET['dir'], 10);
+        } else {
+            $films = $filmRepository->showPaginate(null, null, 10);
+        }
+
         echo $this->layout->render('film', [
-            'isMovies' => false,
+            'isMovies' => true,
             'id' => 'ID',
-            'title' => 'Titre Film original',
-            'titleFr' => 'Titre Film français',
-            'type'  => 'Type Film',
-            'year' => 'Année de sortie',
+            'title'  => 'Titres films originaux',
+            'titleFr'  => 'Titres films français',
+            'director' => 'Réalisateur',
+            'type'  => 'Type films',
+            'year' => 'Année',
             'score' => 'Note',
-            'movies' => $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film'),
+            'movies' => $films,
+            'types' => $typeRepository->getTypes(),
         ]);
     }
 
     public function createMovie() {
-        $title = $_POST['title'];
-        $titleFr = $_POST['titleFr'];
-        $type = $_POST['type'];
-        $year = $_POST['year'];
-        $score = $_POST['score'];
 
-        try {
-            $movie = new Film();
-            $movie->create($this->db, $title, $titleFr, $type, $year, $score);
+        if (isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
+            try {
+                $movie = new FilmRepository($this->db);
+                $movie->create($_POST['title'], $_POST['titleFr'], $_POST['type'], $_POST['year'], $_POST['score']);
+                $route = Router::getByName('movies_list');
+                Header("location: " . $route->getUri(true));
+            } catch (\PDOException $e) {
+                echo 'PDO Error: ' . $e->getMessage();
+                throw new \PDOException($e->getMessage());
+            }
+        } else {
             $route = Router::getByName('movies_list');
             Header("location: " . $route->getUri(true));
-        } catch(pdoException $e) {
-            echo 'PDO Error: ' . $e->getMessage();
-            die();
         }
     }
 
     public function updateMovie() {
-        $id = $_POST['id'];
-        $title = $_POST['title'];
-        $titleFr = $_POST['titleFr'];
-        $type = $_POST['type'];
-        $year = $_POST['year'];
-        $score = $_POST['score'];
-
-        try {
-            $movie = new Film();
-            $movie->update($this->db, $id, $title, $titleFr, $type, $year, $score);
+        if (isset($_POST['id']) && isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
+            try {
+                $movie = new FilmRepository($this->db);
+                $movie->update($_POST['id'], $_POST['title'], $_POST['titleFr'], $_POST['type'], $_POST['year'], $_POST['score']);
+                $route = Router::getByName('movies_list');
+                Header("location: " . $route->getUri(true));
+            } catch(\PDOException $e) {
+                echo 'PDO Error: ' . $e->getMessage();
+                throw new \PDOException($e->getMessage());
+            }
+        } else {
             $route = Router::getByName('movies_list');
             Header("location: " . $route->getUri(true));
-        } catch(pdoException $e) {
-            echo 'PDO Error: ' . $e->getMessage();
-            die();
         }
     }
 
     public function deleteMovie() {
-        $id =  $_GET['id'];
 
-        try {
-            $movie = new Film();
-            $movie->delete($this->db, $id);
+        if(isset($_GET['id'])) {
+            try {
+                $movie = new FilmRepository($this->db);
+                $movie->delete($_GET['id']);
+                $route = Router::getByName('movies_list');
+                Header("location: " . $route->getUri(true));
+            } catch(\PDOException $e) {
+                echo 'PDO Error: ' . $e->getMessage();
+                throw new \PDOException($e->getMessage());
+            }
+        } else {
             $route = Router::getByName('movies_list');
             Header("location: " . $route->getUri(true));
-        } catch(pdoException $e) {
-            echo 'PDO Error: ' . $e->getMessage();
-            die();
         }
     }
 
     public function searchMovie() {
 
-        $stmt = $this->db->run('SELECT * FROM film WHERE ' . $_POST['column'] . '=' . $_POST['search']);
-        echo $this->layout->render('film', [
-            'id' => 'ID',
-            'title'  => 'Titres films originaux',
-            'titleFr'  => 'Titres films français',
-            'type'  => 'Type films',
-            'year' => 'Année',
-            'score' => 'Note',
-            'movies' => $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film'),
-        ]);
     }
 }
