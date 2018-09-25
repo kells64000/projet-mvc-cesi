@@ -38,7 +38,7 @@ class FilmRepository
         //$sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id ";
         $sql = "SELECT * FROM film ";
         if(!empty($orderBy) && !empty($dir)) {
-            $sql .= 'ORDER BY :orderby :dir ';
+            $sql .= 'ORDER BY :orderby :dir';
         }
         $stmt = $this->database->run($sql, array(
             'orderby' => $orderBy,

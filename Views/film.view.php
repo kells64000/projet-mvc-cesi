@@ -7,10 +7,6 @@
                     <i class="fas fa-home text-white"></i>
                 </a>
 
-                <button class="btn btn-md bg-dark" data-toggle="collapse" data-target="#search">
-                    <i class="fas fa-search text-white"></i>
-                </button>
-
                 <?php if(!$isMoviesList) : ?>
                     <a href="/movies" class="btn btn-md bg-dark">
                         <i class="fas fa-film text-white"></i>
@@ -19,20 +15,11 @@
                     <a href="/movies/page" class="btn btn-md bg-dark">
                         <i class="fas fa-align-justify text-white"></i>
                     </a>
-                <?php endif; ?>
 
-                <div id="search" class="collapse">
-                    <form action="/movies/search" method="get">
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="Recherche...">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-md bg-dark">
-                                    <i class="fas fa-search text-white"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    <button class="btn btn-md bg-dark" data-toggle="modal" data-target="#search">
+                        <i class="fas fa-search text-white"></i>
+                    </button>
+                <?php endif; ?>
 
             </div>
         </div>
@@ -252,7 +239,6 @@
     </div>
 </div>
 
-
 <!-- Modal CREATE -->
 <div class="modal fade" id="createMovie" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -374,3 +360,29 @@
     </div>
 </div>
 <?php } ?>
+
+<!-- Modal SEARCH -->
+<div id="search" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="/movies/search" method="get">
+                <div class="modal-header bg-secondary">
+                    <h5 class="modal-title text-white">Rechercher ce que vous voulez !</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Recherche...">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-md bg-dark">
+                                <i class="fas fa-search text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
