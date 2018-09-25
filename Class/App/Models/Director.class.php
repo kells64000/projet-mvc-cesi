@@ -7,39 +7,38 @@ class Director {
     private $id;
     private $name;
 
-
     // Getters
-
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId() :int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName() {
+    public function getName() :string
+    {
         return $this->name;
     }
 
     // Setters
 
     /**
-     * @param mixed $id
+     * @param $id
      */
-    public function setId($id): void
+    public function setId($id) :void
     {
         $this->id = $id;
     }
 
     /**
-     * @param mixed $name
+     * @param $name
      */
-    public function setName($name) {
+    public function setName($name) :void
+    {
         $this->name = $name;
     }
-
 }

@@ -15,7 +15,8 @@ class MovieController extends BaseController {
             $film = $filmRepository->showOne($_GET['id']);
 
             echo $this->layout->render('film', [
-                'isMovies' => false,
+                'isMoviesList' => false,
+                'isPaginate' => false,
                 'id' => 'ID',
                 'title' => 'Titre Film original',
                 'titleFr' => 'Titre Film français',
@@ -34,6 +35,7 @@ class MovieController extends BaseController {
     public function showAll() {
 
         $filmRepository = new FilmRepository($this->db);
+        $typeRepository = new TypeRepository($this->db);
 
         if(isset($_GET['orderby']) && isset($_GET['dir'])) {
             $films = $filmRepository->showAll($_GET['orderby'], $_GET['dir']);
@@ -42,7 +44,8 @@ class MovieController extends BaseController {
         }
 
         echo $this->layout->render('film', [
-            'isMovies' => true,
+            'isMoviesList' => true,
+            'isPaginate' => false,
             'id' => 'ID',
             'title'  => 'Titres films originaux',
             'titleFr'  => 'Titres films français',
@@ -57,16 +60,41 @@ class MovieController extends BaseController {
     public function showPaginate() {
 
         $filmRepository = new FilmRepository($this->db);
-        $typeRepository = new TypeRepository($this->db);
 
-        if(isset($_GET['orderby']) && isset($_GET['dir'])) {
-            $films = $filmRepository->showPaginate($_GET['orderby'], $_GET['dir'], 10);
-        } else {
-            $films = $filmRepository->showPaginate(null, null, 10);
+        $navBar = "";
+        $limit = 15;
+        $nbPages = $filmRepository->countNbPage($limit);
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+        $previousPage = $currentPage - 1;
+        $nextPage = $currentPage + 1;
+
+        if($nbPages > 0)
+        {
+            if($nbPages > 1)
+            {
+                if($currentPage > 1)
+                {
+                    $navBar .= "<li class=\"page-item\"><a class=\"page-link bg-dark text-white\" href=\"/movies/page?page=". $previousPage ."\" title=\"page ". $previousPage ."\">". $previousPage ."</a></li>";
+                } else {
+                    $currentPage = 1;
+                }
+
+                $navBar .= "<li class=\"page-item active\"><a class=\"page-link\" href=\"#\" title='Page Active'>". $currentPage ."</a></li>";
+
+                if($currentPage < $nbPages)
+                {
+                    $navBar .= "<li class=\"page-item\"><a class=\"page-link bg-dark text-white\" href=\"/movies/page?page=". $nextPage ."\" title=\"page ". $nextPage ."\">". $nextPage ."</a></li>";
+                }
+
+                $pageStep = "Page ". $currentPage ." sur un total de ". $nbPages ." pages.";
+            }
         }
 
+        $films = $filmRepository->showPaginate($limit, $currentPage);
+
         echo $this->layout->render('film', [
-            'isMovies' => true,
+            'isMoviesList' => false,
+            'isPaginate' => true,
             'id' => 'ID',
             'title'  => 'Titres films originaux',
             'titleFr'  => 'Titres films français',
@@ -75,7 +103,10 @@ class MovieController extends BaseController {
             'year' => 'Année',
             'score' => 'Note',
             'movies' => $films,
-            'types' => $typeRepository->getTypes(),
+            'nbPage' => $nbPages,
+            'currentPage' => $currentPage,
+            'nav' => $navBar,
+            'step' => $pageStep,
         ]);
     }
 

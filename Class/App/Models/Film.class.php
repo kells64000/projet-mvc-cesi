@@ -11,12 +11,11 @@ class Film {
     private $year;
     private $score;
 
-
     // Getters
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId() :int
     {
         return $this->id;
     }
@@ -24,52 +23,56 @@ class Film {
     /**
      * @return Director
      */
-    public function getDirector() : Director
+    public function getDirector() :Director
     {
         return $this->director;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle() {
+    public function getTitle() :string
+    {
         return $this->title;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitleFr() {
+    public function getTitleFr() :string
+    {
         return $this->title_fr;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getType() {
+    public function getType() :string
+    {
         return $this->type;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getYear() {
+    public function getYear() :int
+    {
         return $this->year;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getScore() {
+    public function getScore() :float
+    {
         return $this->score;
     }
 
     // Setters
-
     /**
      * @param mixed $id
      */
-    public function setId($id): void
+    public function setId($id) :void
     {
         $this->id = $id;
     }
@@ -84,35 +87,35 @@ class Film {
     }
 
     /**
-     * @param mixed $title
+     * @param $title
      */
     public function setTitle($title) {
         $this->title = $title;
     }
 
     /**
-     * @param mixed $title_fr
+     * @param $title_fr
      */
     public function setTitleFr($title_fr) {
         $this->title_fr = $title_fr;
     }
 
     /**
-     * @param mixed $type
+     * @param $type
      */
     public function setType($type) {
         $this->type = $type;
     }
 
     /**
-     * @param mixed $year
+     * @param $year
      */
     public function setYear($year) {
         $this->year = $year;
     }
 
     /**
-     * @param mixed $score
+     * @param $score
      */
     public function setScore($score) {
         $this->score = $score;

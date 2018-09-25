@@ -28,8 +28,9 @@ class Site {
         Router::addRoute(new Route('movie_add', 'POST', '/movie/add', 'Movie', 'createMovie'));
 
         /* READ */
-        Router::addRoute(new Route('movies_list', 'GET', '/movies', 'Movie', 'showPaginate'));
         Router::addRoute(new Route('movie_show', 'GET', '/movie/{id:\d+}', 'Movie', 'showOne'));
+        Router::addRoute(new Route('movies_list', 'GET', '/movies', 'Movie', 'showAll'));
+        Router::addRoute(new Route('movies_paginate', 'GET', '/movies/page', 'Movie', 'showPaginate'));
 
         /* UPDATE */
         Router::addRoute(new Route('movie_edit', 'POST', '/movie/{id:\d+}/edit', 'Movie', 'updateMovie'));
