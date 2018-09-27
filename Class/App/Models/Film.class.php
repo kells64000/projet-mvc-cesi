@@ -4,7 +4,8 @@ namespace App\Models;
 
 class Film {
     private $id;
-    private $director;
+    //private $director;
+    private $name;
     private $title;
     private $title_fr;
     private $type;
@@ -20,12 +21,17 @@ class Film {
         return $this->id;
     }
 
-    /**
-     * @return Director
-     */
-    public function getDirector() :Director
+//    /**
+//     * @return director
+//     */
+//    public function getDirector() :director
+//    {
+//        return $this->director;
+//    }
+
+    public function getName() :string
     {
-        return $this->director;
+        return $this->name;
     }
 
     /**
@@ -77,14 +83,13 @@ class Film {
         $this->id = $id;
     }
 
-    /**
-     * @param Director $director
-     * @return Director
-     */
-    public function setDirector(Director $director)
-    {
-        return $this->director = $director;
-    }
+//    /**
+//     * @param Director $director
+//     */
+//    public function setDirector(Director $director)
+//    {
+//        $this->director = $director;
+//    }
 
     /**
      * @param $title

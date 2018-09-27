@@ -23,7 +23,7 @@ class FilmRepository
      */
     public function showOne($id) {
 
-        $sql = 'SELECT * FROM film WHERE id=' . $id;
+        $sql = 'SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id WHERE film.id=' . $id;
         $stmt = $this->database->run($sql);
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film');
     }
@@ -35,10 +35,12 @@ class FilmRepository
      */
     public function showAll($orderBy, $dir) {
 
-        //$sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id ";
-        $sql = "SELECT * FROM film ";
+        $sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id ";
+
         if(!empty($orderBy) && !empty($dir)) {
             $sql .= 'ORDER BY :orderby :dir';
+        } else {
+            $sql .= 'ORDER BY film.id';
         }
         $stmt = $this->database->run($sql, array(
             'orderby' => $orderBy,
@@ -68,7 +70,7 @@ class FilmRepository
     public function showPaginate($limit, $currentPage) {
 
         $start = ($currentPage - 1) * $limit;
-        $sql = "SELECT * FROM film ";
+        $sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id ORDER BY film.id ";
         $sql .= 'LIMIT ' . $start . ', ' . $limit . ';';
         $stmt = $this->database->run($sql);
 

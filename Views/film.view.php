@@ -32,11 +32,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
-                                <a href="/movies?orderby=id&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.id&dir=desc" class="text-white">
                                     <?=$id?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=id&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.id&dir=asc" class="text-white">
                                     <?=$id?>
                                 </a>
                             <?php endif;
@@ -48,11 +48,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=title&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.title&dir=desc" class="text-white">
                                     <?=$title?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=title&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.title&dir=asc" class="text-white">
                                     <?=$title?>
                                 </a>
                             <?php endif;
@@ -64,11 +64,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=title_fr&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.title_fr&dir=desc" class="text-white">
                                     <?=$titleFr?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=title_fr&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.title_fr&dir=asc" class="text-white">
                                     <?=$titleFr?>
                                 </a>
                             <?php endif;
@@ -80,11 +80,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=director&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.name&dir=desc" class="text-white">
                                     <?=$director?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=director&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.name&dir=asc" class="text-white">
                                     <?=$director?>
                                 </a>
                             <?php endif;
@@ -96,11 +96,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=type&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.type&dir=desc" class="text-white">
                                     <?=$type?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=type&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.type&dir=asc" class="text-white">
                                     <?=$type?>
                                 </a>
                             <?php endif;
@@ -112,11 +112,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=year&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.year&dir=desc" class="text-white">
                                     <?=$year?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=year&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.year&dir=asc" class="text-white">
                                     <?=$year?>
                                 </a>
                             <?php endif;
@@ -128,11 +128,11 @@
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=score&dir=desc" class="text-white">
+                                <a href="/movies?orderby=film.score&dir=desc" class="text-white">
                                     <?=$score?>
                                 </a>
                             <?php else : ?>
-                                <a href="/movies?orderby=score&dir=asc" class="text-white">
+                                <a href="/movies?orderby=film.score&dir=asc" class="text-white">
                                     <?=$score?>
                                 </a>
                             <?php endif;
@@ -151,25 +151,19 @@
                 </thead>
                 <tbody>
                 <?php foreach ($movies as $movie): ?>
-                    <tr>
+                    <tr ondblclick="document.location='/movie/<?=$movie->getId()?>'">
                         <th scope="row"><?=$movie->getId() ?></th>
 
                         <td>
-                            <a href="/movie/<?=$movie->getId()?>" class="text-light">
-                                <?=$movie->getTitle() ?>
-                            </a>
+                            <?=$movie->getTitle() ?>
                         </td>
 
                         <td>
-                            <a href="/movie/<?=$movie->getId()?>" class="text-light">
-                                <?=$movie->getTitleFr()?>
-                            </a>
+                            <?=$movie->getTitleFr()?>
                         </td>
 
                         <td>
-                            <a href="/movie/<?=$movie->getId()?>" class="text-light">
-                                <!-- php -> $movie->getDirector()->getName() -->
-                            </a>
+                            <?=$movie->getName()?>
                         </td>
 
                         <td>
@@ -290,7 +284,7 @@
         <div class="modal-content">
             <form action="/movie/<?=$movie->getId()?>/edit" method="POST">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Modifications de <?=$movie->getTitleFr()?></h5>
+                    <h5 class="modal-title text-white" id="exampleModalLongTitle">Modifications de : <p><?=$movie->getTitleFr()?></p></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -311,9 +305,15 @@
                         <input name="titleFr" type="text" class="form-control" id="titleFr" value="<?=$movie->getTitleFr()?>" required>
                     </div>
                     <div class="form-group">
+                        <label for="name" class="col-form-label">Réalisateur :</label>
+                        <select class="custom-select" name="name" id="name">
+                            <option value="<?=$movie->getName()?>"><?=$movie->getName()?></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="type" class="col-form-label">Type :</label>
                         <select class="custom-select" name="type" id="type">
-
+                            <option value="<?=$movie->getType()?>"><?=$movie->getType()?></option>
                         </select>
                     </div>
                     <div class="form-group">
