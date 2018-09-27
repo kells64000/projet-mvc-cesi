@@ -29,6 +29,9 @@ class Film {
 //        return $this->director;
 //    }
 
+    /**
+     * @return string
+     */
     public function getName() :string
     {
         return $this->name;

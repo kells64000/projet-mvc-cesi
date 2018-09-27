@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-class Director {
+class Type
+{
     private $id;
     private $name;
 
-    // Getters
+    // GETTERS
     /**
      * @return int
      */
@@ -23,11 +24,11 @@ class Director {
         return $this->name;
     }
 
-    // Setters
+    // SETTERS
     /**
      * @param $id
      */
-    public function setId($id) :void
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -35,7 +36,7 @@ class Director {
     /**
      * @param $name
      */
-    public function setName($name) :void
+    public function setName($name): void
     {
         $this->name = $name;
     }

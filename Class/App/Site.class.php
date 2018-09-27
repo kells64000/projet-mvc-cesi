@@ -37,6 +37,9 @@ class Site {
 
         /* DELETE */
         Router::addRoute(new Route('movie_delete', 'GET', '/movie/{id:\d+}/delete', 'Movie', 'deleteMovie'));
+
+        /* SEARCH */
+        Router::addRoute(new Route('movie_search','GET','movies/search','Movie','searchMovies'));
     }
 
     function run() {

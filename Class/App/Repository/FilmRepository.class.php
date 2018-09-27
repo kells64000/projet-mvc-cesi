@@ -38,12 +38,13 @@ class FilmRepository
         $sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id ";
 
         if(!empty($orderBy) && !empty($dir)) {
-            $sql .= 'ORDER BY :orderby :dir';
+            $sql .= "ORDER BY :orderBy :dir";
         } else {
             $sql .= 'ORDER BY film.id';
         }
+
         $stmt = $this->database->run($sql, array(
-            'orderby' => $orderBy,
+            'orderBy' => $orderBy,
             'dir' => $dir,
         ));
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film');
@@ -77,11 +78,21 @@ class FilmRepository
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film');
     }
 
-    public function create($title, $title_fr, $type, $year, $score) {
+    /**
+     * @param $title
+     * @param $title_fr
+     * @param $type
+     * @param $id_director
+     * @param $year
+     * @param $score
+     * @return bool|\PDOException
+     */
+    public function create($title, $title_fr, $type, $id_director, $year, $score) {
         $this->database->beginTransaction();
         try {
-            $sql = 'INSERT INTO `film` (`id`, `title`, `title_fr`, `type`, `year`, `score`) VALUES (NULL, :title, :titleFr, :type, :year, :score)';
+            $sql = 'INSERT INTO `film` (`id`, `id_director`, `title`, `title_fr`, `type`, `year`, `score`) VALUES (NULL, :id_director, :title, :titleFr, :type, :year, :score)';
             $this->database->run($sql, array(
+                'id_director' => $id_director,
                 'title' => $title,
                 'titleFr' => $title_fr,
                 'type' => $type,
@@ -96,12 +107,23 @@ class FilmRepository
         }
     }
 
-    public function update($id, $title, $title_fr, $type, $year, $score) {
+    /**
+     * @param $id
+     * @param $title
+     * @param $title_fr
+     * @param $id_director
+     * @param $type
+     * @param $year
+     * @param $score
+     * @return bool|\PDOException
+     */
+    public function update($id, $title, $title_fr, $id_director, $type, $year, $score) {
         $this->database->beginTransaction();
         try {
-            $sql = 'UPDATE `film` SET `title` = :title, `title_fr` = :titleFr, `type` = :type, `year` = :year, `score` = :score WHERE `id` = :id';
+            $sql = 'UPDATE `film` SET `id_director` = :id_director, `title` = :title, `title_fr` = :titleFr, `type` = :type, `year` = :year, `score` = :score WHERE `id` = :id';
             $this->database->run($sql, array(
                 'id' => $id,
+                'id_director' => $id_director,
                 'title' => $title,
                 'titleFr' => $title_fr,
                 'type' => $type,
@@ -133,9 +155,25 @@ class FilmRepository
         }
     }
 
-    public function search() {
+    /**
+     * @param $search
+     * @return array
+     */
+    public function search($search) {
 
+        $sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id WHERE ";
+        $sql .= "film.id = :search ";
+        $sql .= "OR director.name LIKE '%:search%' ";
+        $sql .= "OR film.title LIKE '%:search%' ";
+        $sql .= "OR film.title_fr LIKE '%:search%' ";
+        $sql .= "OR film.type LIKE '%:search%' ";
+        $sql .= "OR film.year LIKE '%:search%' ";
+        $sql .= "OR film.score LIKE '%:search%' ";
+        $stmt = $this->database->run($sql, array(
+            'search' => $search,
+        ));
 
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film');
     }
 
 }

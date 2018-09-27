@@ -27,127 +27,107 @@
         <div class="col-12 col-md-10">
             <table class="table table-striped table-dark table-bordered text-center">
                 <thead>
-                <tr>
-                    <th scope="col">
+                    <tr>
                         <?php
                         if($isMoviesList) :
                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
-                                <a href="/movies?orderby=film.id&dir=desc" class="text-white">
-                                    <?=$id?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.id&dir=desc'" scope="col">
                             <?php else : ?>
-                                <a href="/movies?orderby=film.id&dir=asc" class="text-white">
-                                    <?=$id?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.id&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$id?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <th scope="col">
+                                <?=$id?>
+                            </th>
+
                         <?php
                         if($isMoviesList) :
-                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=film.title&dir=desc" class="text-white">
-                                    <?=$title?>
-                                </a>
+                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
+                                <th onclick="document.location='/movies?orderby=film.title&dir=desc'" scope="col">
                             <?php else : ?>
-                                <a href="/movies?orderby=film.title&dir=asc" class="text-white">
-                                    <?=$title?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.title&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$title?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <th scope="col">
+                                <?=$title?>
+                            </th>
+
                         <?php
                         if($isMoviesList) :
-                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=film.title_fr&dir=desc" class="text-white">
-                                    <?=$titleFr?>
-                                </a>
+                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
+                                <th onclick="document.location='/movies?orderby=film.title_fr&dir=desc'" scope="col">
                             <?php else : ?>
-                                <a href="/movies?orderby=film.title_fr&dir=asc" class="text-white">
-                                    <?=$titleFr?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.title_fr&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$titleFr?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <th scope="col">
+                                <?=$titleFr?>
+                            </th>
+
+
                         <?php
                         if($isMoviesList) :
-                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=film.name&dir=desc" class="text-white">
-                                    <?=$director?>
-                                </a>
+                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
+                                <th onclick="document.location='/movies?orderby=film.name&dir=desc'" scope="col">
                             <?php else : ?>
-                                <a href="/movies?orderby=film.name&dir=asc" class="text-white">
-                                    <?=$director?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.name&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$director?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <th scope="col">
+                                <?=$director?>
+                            </th>
+
                         <?php
                         if($isMoviesList) :
-                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=film.type&dir=desc" class="text-white">
-                                    <?=$type?>
-                                </a>
+                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
+                                <th onclick="document.location='/movies?orderby=film.type&dir=desc'" scope="col">
                             <?php else : ?>
-                                <a href="/movies?orderby=film.type&dir=asc" class="text-white">
-                                    <?=$type?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.type&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$type?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <th scope="col">
+                                <?=$type?>
+                            </th>
+
                         <?php
                         if($isMoviesList) :
-                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=film.year&dir=desc" class="text-white">
-                                    <?=$year?>
-                                </a>
-                            <?php else : ?>
-                                <a href="/movies?orderby=film.year&dir=asc" class="text-white">
-                                    <?=$year?>
-                                </a>
+                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
+                                <th onclick="document.location='/movies?orderby=film.year&dir=desc'" scope="col">
+                             <?php else : ?>
+                                <th onclick="document.location='/movies?orderby=film.year&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$year?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <th scope="col">
+                                <?=$year?>
+                            </th>
+
                         <?php
                         if($isMoviesList) :
-                            if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') :?>
-                                <a href="/movies?orderby=film.score&dir=desc" class="text-white">
-                                    <?=$score?>
-                                </a>
+                             if(!isset($_GET['dir']) || $_GET['dir'] !== 'desc') : ?>
+                                <th onclick="document.location='/movies?orderby=film.score&dir=desc'" scope="col">
                             <?php else : ?>
-                                <a href="/movies?orderby=film.score&dir=asc" class="text-white">
-                                    <?=$score?>
-                                </a>
+                                <th onclick="document.location='/movies?orderby=film.score&dir=asc'" scope="col">
                             <?php endif;
                         else : ?>
-                            <?=$score?>
+                            <th scope="col">
                         <?php endif; ?>
-                    </th>
-                    <?php if($isMoviesList) : ?>
-                    <th>
-                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#createMovie">
-                            <i class="far fa-plus-square fa-3x"></i>
-                        </button>
-                    </th>
-                    <?php endif; ?>
-                </tr>
+                                <?=$score?>
+                            </th>
+
+                        <?php if($isMoviesList) : ?>
+                        <th>
+                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#createMovie">
+                                <i class="far fa-plus-square fa-3x"></i>
+                            </button>
+                        </th>
+                        <?php endif; ?>
+                    </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($movies as $movie): ?>
@@ -200,28 +180,62 @@
                     <nav aria-label="pagination">
                         <ul class="pagination">
                             <?php if($currentPage == 1) :?>
-                            <li class="page-item disabled">
-                                <a class="page-link bg-secondary text-white" href="#" aria-label="Previous">
+                                <li class="page-item disabled">
+                                    <a class="page-link bg-secondary text-white" href="#" aria-label="Start">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Start</span>
+                                    </a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link bg-secondary text-white" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
                             <?php else : ?>
-                            <li class="page-item">
-                                <a class="page-link bg-dark text-white" href="/movies/page?page=<?=$currentPage-1?>" aria-label="Previous">
+                                <li class="page-item">
+                                    <a class="page-link bg-dark text-white" href="/movies/page?page=1" aria-label="Start">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Start</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link bg-dark text-white" href="/movies/page?page=<?=$currentPage-1?>" aria-label="Previous">
+                                        <span aria-hidden="true">&lt;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
                             <?php endif; ?>
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
+
                             <?=$nav?>
+
                             <?php if($currentPage == $nbPage) : ?>
-                            <li class="page-item disabled">
-                                <a class="page-link bg-secondary text-white" href="#" aria-label="Next">
+                                <li class="page-item disabled">
+                                    <a class="page-link bg-secondary text-white" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&gt;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link bg-secondary text-white" href="#" aria-label="End">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">End</span>
+                                    </a>
+                                </li>
                             <?php else : ?>
-                            <li class="page-item">
-                                <a class="page-link bg-dark text-white" href="/movies/page?page=<?=$currentPage+1?>" aria-label="Next">
+                                <li class="page-item">
+                                    <a class="page-link bg-dark text-white" href="/movies/page?page=<?=$currentPage+1?>" aria-label="Next">
+                                        <span aria-hidden="true">&gt;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link bg-dark text-white" href="/movies/page?page=<?=$nbPage?>" aria-label="End">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">End</span>
+                                    </a>
+                                </li>
                             <?php endif; ?>
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -247,25 +261,35 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="title" class="col-form-label">Titre original :</label>
-                        <input name="title" type="text" class="form-control" id="title" placeholder="The Godfather" required>
+                        <input name="title" type="text" class="form-control" id="title" placeholder="Title" required>
                     </div>
                     <div class="form-group">
                         <label for="titleFr" class="col-form-label">Titre français :</label>
-                        <input name="titleFr" type="text" class="form-control" id="titleFr" placeholder="Le Parrain" required>
+                        <input name="titleFr" type="text" class="form-control" id="titleFr" placeholder="Title Fr" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Réalisateur :</label>
+                        <select class="custom-select" name="name" id="name">
+                            <?php foreach ($directors as $director) : ?>
+                                <option value="<?=$director->getName()?>"><?=$director->getName()?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="type" class="col-form-label">Type :</label>
                         <select class="custom-select" name="type" id="type">
-
+                            <?php foreach ($types as $type) : ?>
+                                <option value="<?=$type->getName()?>"><?=$type->getName()?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="year" class="col-form-label">Année :</label>
-                        <input name="year" type="text" class="form-control" id="year" placeholder="1972" required>
+                        <input name="year" type="number" class="form-control" id="year" placeholder="AAAA" required>
                     </div>
                     <div class="form-group">
                         <label for="score" class="col-form-label">Note :</label>
-                        <input name="score" type="text" class="form-control" id="score" placeholder="8.5" required>
+                        <input name="score" type="number" step="0.1" min="0" max="10" class="form-control" id="score" placeholder="0 / 10" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -308,17 +332,23 @@
                         <label for="name" class="col-form-label">Réalisateur :</label>
                         <select class="custom-select" name="name" id="name">
                             <option value="<?=$movie->getName()?>"><?=$movie->getName()?></option>
+                            <?php foreach ($directors as $director) : ?>
+                                <option value="<?=$director->getName()?>"><?=$director->getName()?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="type" class="col-form-label">Type :</label>
                         <select class="custom-select" name="type" id="type">
                             <option value="<?=$movie->getType()?>"><?=$movie->getType()?></option>
+                            <?php foreach ($types as $type) : ?>
+                                <option value="<?=$type->getName()?>"><?=$type->getName()?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="year" class="col-form-label">Année :</label>
-                        <input name="year" type="text" class="form-control" id="year" value="<?=$movie->getYear()?>" required>
+                        <input name="year" type="number" class="form-control" id="year" value="<?=$movie->getYear()?>" required>
                     </div>
                     <div class="form-group">
                         <label for="score" class="col-form-label">Note :</label>
@@ -367,14 +397,14 @@
         <div class="modal-content">
             <form action="/movies/search" method="get">
                 <div class="modal-header bg-secondary">
-                    <h5 class="modal-title text-white">Rechercher ce que vous voulez !</h5>
+                    <h5 class="modal-title text-white">Rechercher dans la liste des films !</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Recherche...">
+                        <input type="text" class="form-control" name="search" placeholder="Recherche...">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-md bg-dark">
                                 <i class="fas fa-search text-white"></i>

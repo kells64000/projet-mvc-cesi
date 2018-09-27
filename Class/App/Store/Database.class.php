@@ -6,6 +6,14 @@ use PDO;
 use PDOStatement;
 
 class Database extends PDO {
+    /**
+     * Database constructor.
+     * @param $host
+     * @param $db
+     * @param $user
+     * @param $pwd
+     * @param array $options
+     */
     public function __construct($host, $db, $user, $pwd, $options=[]) {
 
         $dsn = 'mysql:host=' . $host . ';dbname=' . $db;
@@ -16,10 +24,20 @@ class Database extends PDO {
         $this->exec("SET NAMES 'utf8'");    // force échange de données en UTF-8
     }
 
+    /**
+     * @param $sql
+     * @param null $arg
+     * @return PDOStatement
+     */
     public function run($sql, $arg = null) : PDOStatement {
 
         $stmt = $this->prepare($sql);
+
+//        $stmt->bindValue(':orderBy',$arg['orderBy'], PDO::PARAM_STR);
+//        $stmt->bindValue(':dir',$arg['dir'], PDO::PARAM_STR);
+
         $stmt->execute($arg);
+
         return $stmt;
     }
 }

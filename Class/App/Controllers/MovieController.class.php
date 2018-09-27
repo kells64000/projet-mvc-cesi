@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repository\FilmRepository;
 use App\Repository\TypeRepository;
+use App\Repository\DirectorRepository;
 use App\Router;
 
 class MovieController extends BaseController {
@@ -36,6 +37,8 @@ class MovieController extends BaseController {
 
         $filmRepository = new FilmRepository($this->db);
         $typeRepository = new TypeRepository($this->db);
+        $directorRepository = new DirectorRepository($this->db);
+
 
         if(isset($_GET['orderby']) && isset($_GET['dir'])) {
             $films = $filmRepository->showAll($_GET['orderby'], $_GET['dir']);
@@ -54,6 +57,8 @@ class MovieController extends BaseController {
             'year' => 'Année',
             'score' => 'Note',
             'movies' => $films,
+            'directors' => $directorRepository->showAll(),
+            'types' => $typeRepository->showAll(),
         ]);
     }
 
@@ -112,10 +117,14 @@ class MovieController extends BaseController {
 
     public function createMovie() {
 
-        if (isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
+        if (isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['name']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
             try {
                 $movie = new FilmRepository($this->db);
-                $movie->create($_POST['title'], $_POST['titleFr'], $_POST['type'], $_POST['year'], $_POST['score']);
+                $director = new DirectorRepository($this->db);
+
+                $idDirector = $director->searchId($_POST['name']);
+
+                $movie->create($_POST['title'], $_POST['titleFr'], $_POST['type'], $idDirector, $_POST['year'], $_POST['score']);
                 $route = Router::getByName('movies_list');
                 Header("location: " . $route->getUri(true));
             } catch (\PDOException $e) {
@@ -129,12 +138,17 @@ class MovieController extends BaseController {
     }
 
     public function updateMovie() {
-        if (isset($_POST['id']) && isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
+        if (isset($_POST['id']) && isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['name']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
             try {
                 $movie = new FilmRepository($this->db);
-                $movie->update($_POST['id'], $_POST['title'], $_POST['titleFr'], $_POST['type'], $_POST['year'], $_POST['score']);
+                $director = new DirectorRepository($this->db);
+
+                $idDirector = $director->searchId($_POST['name']);
+
+                $movie->update($_POST['id'], $_POST['title'], $_POST['titleFr'], $idDirector, $_POST['type'], $_POST['year'], $_POST['score']);
                 $route = Router::getByName('movies_list');
                 Header("location: " . $route->getUri(true));
+
             } catch(\PDOException $e) {
                 echo 'PDO Error: ' . $e->getMessage();
                 throw new \PDOException($e->getMessage());
@@ -163,7 +177,25 @@ class MovieController extends BaseController {
         }
     }
 
-    public function searchMovie() {
+    public function searchMovies() {
+
+        if(isset($_GET['search'])) {
+            $filmRepository = new FilmRepository($this->db);
+            $films = $filmRepository->search($_GET['search']);
+
+            echo $this->layout->render('film', [
+                'isMoviesList' => false,
+                'isPaginate' => false,
+                'id' => 'ID',
+                'title'  => 'Titres films originaux',
+                'titleFr'  => 'Titres films français',
+                'director' => 'Réalisateur',
+                'type'  => 'Type films',
+                'year' => 'Année',
+                'score' => 'Note',
+                'movies' => $films,
+            ]);
+        }
 
     }
 }

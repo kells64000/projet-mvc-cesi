@@ -23,6 +23,8 @@ define("MYSQL_DB", "dbname");
 
 ## Utilisation :
 
+Les Repository sont dans : `App\Repository`
+
 Les Models sont dans : `App\Models`
 
 Les Controllers sont dans : `App\Controllers`
