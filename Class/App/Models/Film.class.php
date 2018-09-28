@@ -70,9 +70,9 @@ class Film {
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getScore() :float
+    public function getScore() :string
     {
         return $this->score;
     }

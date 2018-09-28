@@ -15,11 +15,13 @@
                     <a href="/movies/page" class="btn btn-md bg-dark">
                         <i class="fas fa-align-justify text-white"></i>
                     </a>
+                <?php endif; ?>
 
+                <?php if($isMoviesSearch) : ?>
                     <button class="btn btn-md bg-dark" data-toggle="modal" data-target="#search">
                         <i class="fas fa-search text-white"></i>
                     </button>
-                <?php endif; ?>
+                <?php endif;; ?>
 
             </div>
         </div>
@@ -352,7 +354,7 @@
                     </div>
                     <div class="form-group">
                         <label for="score" class="col-form-label">Note :</label>
-                        <input name="score" type="text" class="form-control" id="score" value="<?=$movie->getScore()?>" required>
+                        <input name="score"  type="number" step="0.1" min="0" max="10" class="form-control" id="score" value="<?=$movie->getScore()?>" required>
                     </div>
                 </div>
                 <div class="modal-footer">

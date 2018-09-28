@@ -90,7 +90,7 @@ class FilmRepository
     public function create($title, $title_fr, $type, $id_director, $year, $score) {
         $this->database->beginTransaction();
         try {
-            $sql = 'INSERT INTO `film` (`id`, `id_director`, `title`, `title_fr`, `type`, `year`, `score`) VALUES (NULL, :id_director, :title, :titleFr, :type, :year, :score)';
+            $sql = 'INSERT INTO `film` (`id_director`, `title`, `title_fr`, `type`, `year`, `score`) VALUES (:id_director, :title, :titleFr, :type, :year, :score)';
             $this->database->run($sql, array(
                 'id_director' => $id_director,
                 'title' => $title,
@@ -163,14 +163,14 @@ class FilmRepository
 
         $sql = "SELECT film.id, director.name, film.title, film.title_fr, film.type, film.year, film.score FROM film INNER JOIN director ON film.id_director = director.id WHERE ";
         $sql .= "film.id = :search ";
-        $sql .= "OR director.name LIKE '%:search%' ";
-        $sql .= "OR film.title LIKE '%:search%' ";
-        $sql .= "OR film.title_fr LIKE '%:search%' ";
-        $sql .= "OR film.type LIKE '%:search%' ";
-        $sql .= "OR film.year LIKE '%:search%' ";
-        $sql .= "OR film.score LIKE '%:search%' ";
+        $sql .= "OR director.name LIKE :search ";
+        $sql .= "OR film.title LIKE :search ";
+        $sql .= "OR film.title_fr LIKE :search ";
+        $sql .= "OR film.type LIKE :search ";
+        $sql .= "OR film.year LIKE :search ";
+        $sql .= "OR film.score LIKE :search ";
         $stmt = $this->database->run($sql, array(
-            'search' => $search,
+            'search' => '%' . $search . '%',
         ));
 
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\\Models\\Film');

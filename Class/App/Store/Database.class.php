@@ -33,9 +33,6 @@ class Database extends PDO {
 
         $stmt = $this->prepare($sql);
 
-//        $stmt->bindValue(':orderBy',$arg['orderBy'], PDO::PARAM_STR);
-//        $stmt->bindValue(':dir',$arg['dir'], PDO::PARAM_STR);
-
         $stmt->execute($arg);
 
         return $stmt;

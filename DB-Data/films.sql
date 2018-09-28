@@ -368,10 +368,10 @@ CREATE TABLE IF NOT EXISTS `film` (
   `title_fr` varchar(100) NOT NULL,
   `type` varchar(45) NOT NULL,
   `year` year(4) NOT NULL,
-  `score` decimal(2,1) DEFAULT NULL,
+  `score` decimal(3,1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_film_director` (`id_director`)
-) ENGINE=InnoDB AUTO_INCREMENT=431 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `film`
@@ -805,8 +805,7 @@ INSERT INTO `film` (`id`, `id_director`, `title`, `title_fr`, `type`, `year`, `s
   (426, 293, 'The Beguiled', 'Les Proies', 'Thriller/Drame', 2017, '5.7'),
   (427, 177, 'Justice League', 'Justice League', 'Fantasy/Science-fiction', 2017, '5.1'),
   (428, 294, 'Jumanji : Welcome to the  jungle', 'Jumanji : Bienvenue dans la jungle', 'Fantasy/Aventure', 2017, '0.0'),
-  (429, 295, 'A Simple Wish', 'La Guerre des Fées', 'Fantasy/Comédie', 1998, '4.9'),
-  (430, NULL, 'Incredibles 2', 'Les Indestructibles 2', 'Animation', 2018, '8.0');
+  (429, 295, 'A Simple Wish', 'La Guerre des Fées', 'Fantasy/Comédie', 1998, '4.9');
 
 -- --------------------------------------------------------
 

@@ -18,6 +18,7 @@ class MovieController extends BaseController {
             echo $this->layout->render('film', [
                 'isMoviesList' => false,
                 'isPaginate' => false,
+                'isMoviesSearch' => false,
                 'id' => 'ID',
                 'title' => 'Titre Film original',
                 'titleFr' => 'Titre Film français',
@@ -28,8 +29,9 @@ class MovieController extends BaseController {
                 'movies' => $film,
             ]);
         } else {
-            $route = Router::getByName('movies_list');
-            Header("location: " . $route->getUri(true));
+//            $route = Router::getByName('movies_list');
+//            Header("location: " . $route->getUri(true));
+            $this->showAll();
         }
     }
 
@@ -49,6 +51,7 @@ class MovieController extends BaseController {
         echo $this->layout->render('film', [
             'isMoviesList' => true,
             'isPaginate' => false,
+            'isMoviesSearch' => true,
             'id' => 'ID',
             'title'  => 'Titres films originaux',
             'titleFr'  => 'Titres films français',
@@ -100,6 +103,7 @@ class MovieController extends BaseController {
         echo $this->layout->render('film', [
             'isMoviesList' => false,
             'isPaginate' => true,
+            'isMoviesSearch' => false,
             'id' => 'ID',
             'title'  => 'Titres films originaux',
             'titleFr'  => 'Titres films français',
@@ -115,6 +119,28 @@ class MovieController extends BaseController {
         ]);
     }
 
+    public function searchMovies() {
+
+        if(isset($_GET['search'])) {
+            $filmRepository = new FilmRepository($this->db);
+            $films = $filmRepository->search($_GET['search']);
+
+            echo $this->layout->render('film', [
+                'isMoviesList' => false,
+                'isPaginate' => false,
+                'isMoviesSearch' => true,
+                'id' => 'ID',
+                'title'  => 'Titres films originaux',
+                'titleFr'  => 'Titres films français',
+                'director' => 'Réalisateur',
+                'type'  => 'Type films',
+                'year' => 'Année',
+                'score' => 'Note',
+                'movies' => $films,
+            ]);
+        }
+    }
+
     public function createMovie() {
 
         if (isset($_POST['title']) && isset($_POST['titleFr']) && isset($_POST['name']) && isset($_POST['type']) && isset($_POST['year']) && isset($_POST['score'])) {
@@ -124,9 +150,15 @@ class MovieController extends BaseController {
 
                 $idDirector = $director->searchId($_POST['name']);
 
-                $movie->create($_POST['title'], $_POST['titleFr'], $_POST['type'], $idDirector, $_POST['year'], $_POST['score']);
-                $route = Router::getByName('movies_list');
-                Header("location: " . $route->getUri(true));
+                $create = $movie->create($_POST['title'], $_POST['titleFr'], $_POST['type'], $idDirector, $_POST['year'], $_POST['score']);
+
+                if ($create) {
+                    $route = Router::getByName('movies_list');
+                    Header("location: " . $route->getUri(true));
+                } else {
+                    var_dump($create);
+                    die();
+                }
             } catch (\PDOException $e) {
                 echo 'PDO Error: ' . $e->getMessage();
                 throw new \PDOException($e->getMessage());
@@ -145,9 +177,15 @@ class MovieController extends BaseController {
 
                 $idDirector = $director->searchId($_POST['name']);
 
-                $movie->update($_POST['id'], $_POST['title'], $_POST['titleFr'], $idDirector, $_POST['type'], $_POST['year'], $_POST['score']);
-                $route = Router::getByName('movies_list');
-                Header("location: " . $route->getUri(true));
+                $update = $movie->update($_POST['id'], $_POST['title'], $_POST['titleFr'], $idDirector, $_POST['type'], $_POST['year'], $_POST['score']);
+
+                if ($update) {
+                    $route = Router::getByName('movies_list');
+                    Header("location: " . $route->getUri(true));
+                } else {
+                    var_dump($update);
+                    die();
+                }
 
             } catch(\PDOException $e) {
                 echo 'PDO Error: ' . $e->getMessage();
@@ -164,9 +202,16 @@ class MovieController extends BaseController {
         if(isset($_GET['id'])) {
             try {
                 $movie = new FilmRepository($this->db);
-                $movie->delete($_GET['id']);
-                $route = Router::getByName('movies_list');
-                Header("location: " . $route->getUri(true));
+                $delete = $movie->delete($_GET['id']);
+
+                if ($delete) {
+                    $route = Router::getByName('movies_list');
+                    Header("location: " . $route->getUri(true));
+                } else {
+                    var_dump($delete);
+                    die();
+                }
+
             } catch(\PDOException $e) {
                 echo 'PDO Error: ' . $e->getMessage();
                 throw new \PDOException($e->getMessage());
@@ -175,27 +220,5 @@ class MovieController extends BaseController {
             $route = Router::getByName('movies_list');
             Header("location: " . $route->getUri(true));
         }
-    }
-
-    public function searchMovies() {
-
-        if(isset($_GET['search'])) {
-            $filmRepository = new FilmRepository($this->db);
-            $films = $filmRepository->search($_GET['search']);
-
-            echo $this->layout->render('film', [
-                'isMoviesList' => false,
-                'isPaginate' => false,
-                'id' => 'ID',
-                'title'  => 'Titres films originaux',
-                'titleFr'  => 'Titres films français',
-                'director' => 'Réalisateur',
-                'type'  => 'Type films',
-                'year' => 'Année',
-                'score' => 'Note',
-                'movies' => $films,
-            ]);
-        }
-
     }
 }
